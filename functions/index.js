@@ -172,26 +172,65 @@ app.intent('guest speakers', (conv) => {
     });
 });
 
-// app.intent('current event', (conv) => {
-//     let date_ob = new Date();
-//     let date = ("0" + date_ob.getDate()).slice(-2);
-//     let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-//     let year = date_ob.getFullYear();
-//     var currentDate = year + "-" + month + "-" + date;
-//     var eventDay1 = '2020-03-14';
-//     var eventDay2 = '2020-03-15';
+app.intent('current event', (conv) => {
+    let date_ob = new Date();
+    let date = ("0" + date_ob.getDate()).slice(-2);
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    let year = date_ob.getFullYear();
+    var currentDate = year + "-" + month + "-" + date;
+    var eventDay1 = '2020-03-14';
+    var eventDay2 = '2020-03-15';
+    var x, i;
 
-//     if (currentDate === eventDay2) {
-        
-//     }
-//     else if (currentDate === eventDay1) {
-
-//     }
-//     else {
-//         conv.ask("Hey Sherlock, altough you found me here, there are definitely no events going on today.");
-//         conv.ask("<speak><par><media xml:id='one' begin='0.5s'><speak>Is that because DevExpo already ended?</speak></media><media begin='one.end' fadeOutDur='2s'><speak><prosody pitch='low' rate='0.4' volume='1.5'>Or has it not started yet?.</prosody></speak></media><media end='5s' soundLevel='+2.28dB' fadeInDur='0.2s' fadeOutDur='0.4s'><audio src='https://actions.google.com/sounds/v1/horror/hallow_wind.ogg'/> </media> </par> Meanwhile, you can check out all of my other features.</speak>");
-//         conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
-//     }
-// });
+    if (currentDate === eventDay2) {
+        return loadJsonFile('sessions.json').then(json => {
+            for (i = 5; i < json.sessions.length; i++) {
+                if (timeBetween(json.sessions[i].session_start_time, json.sessions[i].session_end_time) == 1) {
+                    break;
+                }
+            }
+            conv.ask(`At this very moment, I've figured that we have a session on ${json.sessions[i].session_title} by ${json.sessions[i].speaker_name}.`);
+            conv.ask('Rendering all that in to a card view in real time. Here you go, ');
+            conv.ask(new BasicCard({
+                text: `**Session Description :** ${json.sessions[i].session_desc}   \n**Speaker :** ${json.sessions[i].speaker_name}   \n**Speaker Designation :** ${json.sessions[i].speaker_desc}   \n**Session Duration :** ${json.sessions[i].session_total_time}   \n   \n**Track :** ${json.sessions[i].track}`,
+                title: `${json.sessions[i].session_title}`,
+                image: new Image({
+                    url: json.sessions[i].speaker_image,
+                    alt: `${json.sessions[i].speaker_name}`,
+                }),
+                display: 'WHITE',
+            }));
+        }).catch(e => {
+            console.log(e);
+        });
+    }
+    else if (currentDate === eventDay1) {
+        return loadJsonFile('sessions.json').then(json => {
+            for (i = 0; i < 5; i++) {
+                if (timeBetween(json.sessions[i].session_start_time, json.sessions[i].session_end_time) == 1) {
+                    break;
+                }
+            }
+            conv.ask(`At this very moment, I've figured that we have a session on ${json.sessions[i].session_title} by ${json.sessions[i].speaker_name}.`);
+            conv.ask('Rendering all that in to a card view in real time. Here you go, ');
+            conv.ask(new BasicCard({
+                text: `**Session Description :** ${json.sessions[i].session_desc}   \n**Speaker :** ${json.sessions[i].speaker_name}   \n**Speaker Designation :** ${json.sessions[i].speaker_desc}   \n**Session Duration :** ${json.sessions[i].session_total_time}   \n   \n**Track :** ${json.sessions[i].track}`,
+                title: `${json.sessions[i].session_title}`,
+                image: new Image({
+                    url: json.sessions[i].speaker_image,
+                    alt: `${json.sessions[i].speaker_name}`,
+                }),
+                display: 'WHITE',
+            }));
+        }).catch(e => {
+            console.log(e);
+        });
+    }
+    else {
+        conv.ask("Hey Sherlock, although you found me here, there are definitely no events going on today.");
+        conv.ask("<speak><par><media xml:id='one' begin='0.5s'><speak>Is that because DevExpo already ended?</speak></media><media begin='one.end' fadeOutDur='2s'><speak><prosody pitch='low' rate='0.4' volume='1.5'>Or has it not started yet?.</prosody></speak></media><media end='5s' soundLevel='+2.28dB' fadeInDur='0.2s' fadeOutDur='0.4s'><audio src='https://actions.google.com/sounds/v1/horror/hallow_wind.ogg'/> </media> </par> Meanwhile, you can check out all of my other features.</speak>");
+        conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+    }
+});
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
