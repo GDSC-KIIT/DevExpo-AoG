@@ -2,56 +2,79 @@
   "sessions": [
     {
       "session_id": "1",
-      "session_start_time": "10:00",
-      "session_end_time": "10:30",
+      "session_start_time": "11:00",
+      "session_end_time": "11:30",
       "session_total_time": "30 Mins",
       "session_title": "Flash Coding Session",
       "session_desc": "Quick coding questions will be arranged for participants that will involve short and creative questions.",
       "speaker_image": "http://bit.ly/dsckiitlogo",
-      "speaker_name": "Fun Activities",
-      "speaker_desc": "Win and get Goodies",
+      "speaker_name": "Arpit,Debanshu,Aman",
+      "speaker_desc": "DSCKIIT Core Team Member",
       "track": "cloud"
     },
     {
       "session_id": "2",
-      "session_start_time": "9:00",
-      "session_end_time": "10:00",
+      "session_start_time": "11:45",
+      "session_end_time": "12:15",
       "session_total_time": "30 Mins",
-      "session_title": "TechQuiz",
-      "session_desc": "Tech Quizzing competition with various rounds.",
+      "session_title": "Project Showcase",
+      "session_desc": "A session would be arranged which will involve showcasing of innovative projects..",
       "speaker_image": "http://bit.ly/dsckiitlogo",
-      "speaker_name": "Fun Activities",
-      "speaker_desc": "Win and get Goodies",
+      "speaker_name": "DSCKIIT",
+      "speaker_desc": "DSCKIIT Core Team Member",
       "track": "cloud"
     },
     {
       "session_id": "3",
-      "session_start_time": "10:30",
-      "session_end_time": "11:00",
+      "session_start_time": "12:30",
+      "session_end_time": "13:00",
       "session_total_time": "30 Mins",
-      "session_title": "Tech Magic",
-      "session_desc": "Wonderful Majic Show by one of our core member.",
+      "session_title": "Tech Quiz",
+      "session_desc": "There will be a wonderful tech quiz competetion with various rounds.",
+      "speaker_image": "http://bit.ly/dsckiitlogo",
+      "speaker_name": "Manish Rath,Priyansi Singh",
+      "speaker_desc": "DSCKIIT Core Team Member",
+      "track": "cloud"
+    },
+    {
+      "session_id": "4",
+      "session_start_time": "13:00",
+      "session_end_time": "13:30",
+      "session_total_time": "30 Mins",
+      "session_title": "Standup",
+      "session_desc": "Wonderful Standup Show by one of our core team member.",
       "speaker_image": "http://bit.ly/dsckiitlogo",
       "speaker_name": "Amrit Dash",
       "speaker_desc": "DSCKIIT Core Team Member",
       "track": "cloud"
     },
     {
-      "session_id": "4",
-      "session_start_time": "11:00",
-      "session_end_time": "11:40",
-      "session_total_time": "45 Mins",
-      "session_title": "Tech Battle",
-      "session_desc": "Will include debates and discussions over various tech battle topics.",
+      "session_id": "5",
+      "session_start_time": "14:30",
+      "session_end_time": "15:00",
+      "session_total_time": "30 Mins",
+      "session_title": "Tech Magic",
+      "session_desc": "Wonderful Magic Show by one of our core team member.",
       "speaker_image": "http://bit.ly/dsckiitlogo",
-      "speaker_name": "Fun Activities",
-      "speaker_desc": "Vote and Win Goodies.",
+      "speaker_name": "Amrit Dash",
+      "speaker_desc": "DSCKIIT Core Team Member",
       "track": "cloud"
     },
     {
-      "session_id": "5",
-      "session_start_time": "",
-      "session_total_time": "",
+      "session_id": "6",
+      "session_start_time": "15:15",
+      "session_end_time": "15:45",
+      "session_total_time": "30 Mins",
+      "session_title": "Tech Battle",
+      "session_desc": "Will include debates and discussions over various and interesting tech topics.",
+      "speaker_image": "http://bit.ly/dsckiitlogo",
+      "speaker_name": "Arpit,Karn,Debanshu",
+      "speaker_desc": "DSCKIIT Core Team Member",
+      "track": "cloud"
+    },
+    {
+      "session_id": "7",
+      "session_start_time": "16:00",
       "session_title": "And many other surprises ...",
       "session_desc": "Hey, we cannot tell you everything, but sure there is more stuff to be excited about.",
       "speaker_image": "http://bit.ly/dsckiitlogo",
@@ -60,7 +83,7 @@
       "track": "cloud"
     },
     {
-      "session_id": "6",
+      "session_id": "8",
       "session_start_time": "10:00",
       "session_end_time": "10:30",
       "session_total_time": "30 Mins",
@@ -72,7 +95,7 @@
       "track": "Keynote Session"
     },
     {
-      "session_id": "7",
+      "session_id": "9",
       "session_start_time": "10:30",
       "session_end_time": "11:30",
       "session_total_time": "60 Mins",
@@ -84,7 +107,7 @@
       "track": "Indusrty Expert"
     },
     {
-      "session_id": "8",
+      "session_id": "10",
       "session_start_time": "11:30",
       "session_end_time": "12:30",
       "session_total_time": "60 Mins",
@@ -96,7 +119,7 @@
       "track": "Industry Expert"
     },
     {
-      "session_id": "9",
+      "session_id": "11",
       "session_start_time": "12:30",
       "session_end_time": "13:30",
       "session_total_time": "60 Mins",
@@ -108,7 +131,7 @@
       "track": "Design Interact"
     },
     {
-      "session_id": "10",
+      "session_id": "12",
       "session_start_time": "13:30",
       "session_end_time": "14:00",
       "session_total_time": "30 Mins",
@@ -120,7 +143,7 @@
       "track": "Break"
     },
     {
-      "session_id": "11",
+      "session_id": "13",
       "session_start_time": "14:00",
       "session_end_time": "15:00",
       "session_total_time": "60 Mins",
@@ -132,7 +155,7 @@
       "track": "Tech of the Tomorrow"
     },
     {
-      "session_id": "12",
+      "session_id": "14",
       "session_start_time": "15:00",
       "session_end_time": "16:00",
       "session_total_time": "60 Mins",
@@ -144,7 +167,7 @@
       "track": "Design Interact"
     },
     {
-      "session_id": "13",
+      "session_id": "15",
       "session_start_time": "16:00",
       "session_end_time": "16:30",
       "session_total_time": "30 Mins",
