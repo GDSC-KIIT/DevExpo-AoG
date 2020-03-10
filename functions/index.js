@@ -36,15 +36,16 @@ const app = dialogflow({
 
 function timeBetween(startTime, endTime) {
     var dt = new Date();
+    var dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), dt.getHours()+5, dt.getMinutes()+30);
 
-    // var startTime = '02:30';
-    // var endTime = '10:50';
 
     var s = startTime.split(':');
     var dt1 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(s[0]), parseInt(s[1]));
 
     var e = endTime.split(':');
     var dt2 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), parseInt(e[0]), parseInt(e[1]));
+
+    console.log(dt + "--" + dt1 + "--" + dt2);
 
 
     if (dt >= dt1 && dt <= dt2)
@@ -141,8 +142,8 @@ app.intent('register', (conv) => {
     } else {
         conv.ask("Hey buddy. I\'m really sorry but we have closed registrations for this year\'s DevExpo. But we\'re certainly hoping to see you next year.");
         conv.ask("While you\'re here feel free to check out the event schedule and all of our guest speakers for this year.");
+        conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
     }
-    conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
 });
 
 app.intent('guest speakers', (conv) => {
@@ -179,16 +180,20 @@ app.intent('current event', (conv) => {
     let year = date_ob.getFullYear();
     var currentDate = year + "-" + month + "-" + date;
     var eventDay1 = '2020-03-14';
-    var eventDay2 = '2020-03-15';
-    var x, i;
+    var eventDay2 = '2020-03-10';
+    var i, flag = 0;
 
-    if (currentDate === eventDay2) {
-        return loadJsonFile('sessions.json').then(json => {
-            for (i = 5; i < json.sessions.length; i++) {
-                if (timeBetween(json.sessions[i].session_start_time, json.sessions[i].session_end_time) == 1) {
-                    break;
-                }
+    if (currentDate === eventDay1) {
+        let json = loadJsonFile.sync('sessions1.json');
+        for (i = 0; i < json.sessions.length; i++) {
+            if (timeBetween(json.sessions[i].session_start_time, json.sessions[i].session_end_time) == 1) {
+                flag = 1;
+                break;
             }
+            console.log(`${i} : ${json.sessions[i].speaker_name}`);
+        }
+        // console.log(json.sessions[i].speaker_name);
+        if (flag == 1) {
             conv.ask(`At this very moment, I've figured that we have a session on ${json.sessions[i].session_title} by ${json.sessions[i].speaker_name}.`);
             conv.ask('Rendering all that in to a card view in real time. Here you go, ');
             conv.ask(new BasicCard({
@@ -200,17 +205,24 @@ app.intent('current event', (conv) => {
                 }),
                 display: 'WHITE',
             }));
-        }).catch(e => {
-            console.log(e);
-        });
+            conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+        }
+        else {
+            conv.ask("Hey buddy, I think you\'ve wandering around the wrong place because there are no events going on currently.");
+            conv.ask("You can check out the full event schedule and so much more in this Action. What can I help you with?");
+            conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+        }
     }
-    else if (currentDate === eventDay1) {
-        return loadJsonFile('sessions.json').then(json => {
-            for (i = 0; i < 5; i++) {
-                if (timeBetween(json.sessions[i].session_start_time, json.sessions[i].session_end_time) == 1) {
-                    break;
-                }
+    else if (currentDate === eventDay2) {
+        let json = loadJsonFile.sync('sessions2.json');
+        for (i = 0; i < json.sessions.length; i++) {
+            if (timeBetween(json.sessions[i].session_start_time, json.sessions[i].session_end_time) == 1) {
+                flag = 1;
+                break;
             }
+            console.log(`${i} : ${json.sessions[i].speaker_name}`);
+        }
+        if (flag == 1) {
             conv.ask(`At this very moment, I've figured that we have a session on ${json.sessions[i].session_title} by ${json.sessions[i].speaker_name}.`);
             conv.ask('Rendering all that in to a card view in real time. Here you go, ');
             conv.ask(new BasicCard({
@@ -222,9 +234,13 @@ app.intent('current event', (conv) => {
                 }),
                 display: 'WHITE',
             }));
-        }).catch(e => {
-            console.log(e);
-        });
+            conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+        }
+        else {
+            conv.ask("Hey buddy, I think you\'ve wandering around the wrong place because there are no events going on currently.");
+            conv.ask("You can check out the full event schedule and so much more in this Action. What can I help you with?");
+            conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+        }
     }
     else {
         conv.ask("Hey Sherlock, although you found me here, there are definitely no events going on today.");
