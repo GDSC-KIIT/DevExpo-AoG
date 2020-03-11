@@ -8,6 +8,7 @@
         "session_title": "Keynote",
         "session_desc": "Keynote by Dean of Training and Placement committee KIIT DU. To talk about the changing industry scenario and how it will influence engineers and jobs.",
         "speaker_image": "https://instagram.fccu4-2.fna.fbcdn.net/v/t51.2885-19/s320x320/79806825_486054472330710_1281791723445420032_n.jpg?_nc_ht=instagram.fccu4-2.fna.fbcdn.net&_nc_ohc=qBcNQVU654UAX-ot9C1&oh=9b1a65b4772d6e0873ac611dc4435ece&oe=5E8ECF20",
+        "speaker_poster": "https://instagram.fccu4-2.fna.fbcdn.net/v/t51.2885-19/s320x320/79806825_486054472330710_1281791723445420032_n.jpg?_nc_ht=instagram.fccu4-2.fna.fbcdn.net&_nc_ohc=qBcNQVU654UAX-ot9C1&oh=9b1a65b4772d6e0873ac611dc4435ece&oe=5E8ECF20",
         "speaker_name": "Saranjit Singh, Abhishek Ray and Prachet Bhuyan",
         "speaker_desc": "KIIT Training and Placement Department",
         "track": "Keynote Session"
@@ -20,6 +21,7 @@
         "session_title": "Introduction to Cloud and AI, the Azure way",
         "session_desc": "Will talk about Cloud arch, how Azure is revolutionizing the industry",
         "speaker_image": "https://i.ibb.co/8zdQTbj/IMG-20200302-WA0005.jpg",
+        "speaker_poster": "https://i.ibb.co/5hFJ2mw/Speaker-cm2-2x.png",
         "speaker_name": "Chirag Mishra",
         "speaker_desc": "SDE II at Microsoft India",
         "track": "Indusrty Expert"
@@ -32,6 +34,7 @@
         "session_title": "Community 101: Learn and then remove the L.",
         "session_desc": "How communities are taking DevRel seriously.",
         "speaker_image": "https://i.ibb.co/qr8c05w/DSC-2055.jpg",
+        "speaker_poster": "https://i.ibb.co/6mSK7hH/Speaker-P-Biswal-2x.png",
         "speaker_name": "Prajnyasis Biswal",
         "speaker_desc": "Ex-Program Manager Skillenza",
         "track": "Industry Expert"
@@ -44,6 +47,7 @@
         "session_title": "Rise of the planet of the Designers",
         "session_desc": "Design storytelling and overview of UI and UX and sort of fun insights across design.",
         "speaker_image": "https://i.ibb.co/Vwspdy7/Hero-Image.jpg",
+        "speaker_poster": "https://i.ibb.co/v1JNMHF/Speaker-Chetan-KVS-2x.png",
         "speaker_name": "Chethan KVS",
         "speaker_desc": "Product designer at Unacademy",
         "track": "Design Interact"
@@ -56,6 +60,7 @@
         "session_title": "Lunch Break",
         "session_desc": "",
         "speaker_image": "https://instagram.fccu4-2.fna.fbcdn.net/v/t51.2885-19/s320x320/42424022_178398106417889_5122721048579538944_n.jpg?_nc_ht=instagram.fccu4-2.fna.fbcdn.net&_nc_ohc=yII3o0_dTg4AX8-cPpU&oh=a8b3fc0bbdb7bdf1898f498e2d8278f6&oe=5E97831A",
+        "speaker_poster": "https://instagram.fccu4-2.fna.fbcdn.net/v/t51.2885-19/s320x320/42424022_178398106417889_5122721048579538944_n.jpg?_nc_ht=instagram.fccu4-2.fna.fbcdn.net&_nc_ohc=yII3o0_dTg4AX8-cPpU&oh=a8b3fc0bbdb7bdf1898f498e2d8278f6&oe=5E97831A",
         "speaker_name": "Eat Sleep Code Repeat",
         "speaker_desc": "",
         "track": "Break"
@@ -68,6 +73,7 @@
         "session_title": "Fundamentals and grass-root level AI",
         "session_desc": "Will take it to a bit of Intermediate level but won’t go through many details.",
         "speaker_image": "https://i.ibb.co/NZNDryc/IMG-20200302-WA0003.jpg",
+        "speaker_poster": "https://i.ibb.co/yV0nFPK/Speaker-SM-2x.png",
         "speaker_name": "Sabyasachi Mukhopadhyay",
         "speaker_desc": "Google Developer Expert in AI/ML",
         "track": "Tech of the Tomorrow"
@@ -80,6 +86,7 @@
         "session_title": "Designing for mobility",
         "session_desc": "UX for Gojek, Design Storytelling.",
         "speaker_image": "https://i.ibb.co/T8cM7TN/IMG-20190331-175705-769.jpg",
+        "speaker_poster": "https://i.ibb.co/F0ByJ4q/Speaker-ak-2x.png",
         "speaker_name": "Aprajit Kar",
         "speaker_desc": "Designing for Mobility at Gojek",
         "track": "Design Interact"
@@ -92,6 +99,7 @@
         "session_title": "Panel Discussion",
         "session_desc": " High Tea, Networking, Games and Fun activities will go round the clock.",
         "speaker_image": "https://instagram.fccu4-2.fna.fbcdn.net/v/t51.2885-19/s320x320/64911010_2551866188166616_1072036833652637696_n.jpg?_nc_ht=instagram.fccu4-2.fna.fbcdn.net&_nc_ohc=7Kz8TBSzg0MAX-IUeRf&oh=c9e12fc8010b11e7db04351392d9bcc2&oe=5E93AF73",
+        "speaker_poster": "https://instagram.fccu4-2.fna.fbcdn.net/v/t51.2885-19/s320x320/64911010_2551866188166616_1072036833652637696_n.jpg?_nc_ht=instagram.fccu4-2.fna.fbcdn.net&_nc_ohc=7Kz8TBSzg0MAX-IUeRf&oh=c9e12fc8010b11e7db04351392d9bcc2&oe=5E93AF73",
         "speaker_name": "DSCKIIT Core Members",
         "speaker_desc": "Core Members of DSCKIIT",
         "track": "Break"

@@ -9,6 +9,7 @@ const {
     Image,
     LinkOutSuggestion,
     List,
+    Carousel,
     BrowseCarousel,
     BrowseCarouselItem,
 } = require('actions-on-google');
@@ -22,21 +23,28 @@ admin.initializeApp();
 const db = admin.firestore();
 db.settings({ timestampsInSnapshots: true });
 
-const dbs = {
-    schedule: db.collection('schedule'),
-};
+const app = dialogflow({
+    debug: true,
+});
 
 const posterGIF = 'https://i.ibb.co/6FmTDc8/DevExpo.gif';
 const dscxmspc = 'https://i.ibb.co/DMhtQ9w/Untitled-design-1.png';
 const faqGIF = 'https://i.ibb.co/238Ghtf/faqgif.gif';
 
-const app = dialogflow({
-    debug: true,
-});
+const myoption2 = [
+    'This feature is still under development. It might be pushed to release in my future versions.',
+    'Sorry! But my developers are too lazy playing games that they decided that they might put this in the next release.',
+    'Hey there, this feature just might be available to you in the next update. Stay tuned to get it real quick.',
+    'Are you a beta tester? If so, you\'ll be the first one to test this feature if this rolls out. For now please be patient and stay tuned.',
+];
+
+const dbs = {
+    schedule: db.collection('schedule'),
+};
 
 function timeBetween(startTime, endTime) {
     var dt = new Date();
-    var dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), dt.getHours()+5, dt.getMinutes()+30);
+    var dt = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), dt.getHours() + 5, dt.getMinutes() + 30);
 
 
     var s = startTime.split(':');
@@ -53,6 +61,15 @@ function timeBetween(startTime, endTime) {
     else
         return 0;
 }
+
+app.intent('new-eggs', (conv) => {
+    const factArr = myoption2;
+    const factIndex = Math.floor(Math.random() * factArr.length);
+    const randomFact = factArr[factIndex];
+    conv.ask(randomFact);
+    conv.ask('Right now I can only help you with any queries regarding DevExpo 2.0.');
+    conv.ask(new Suggestions(['Main Menu', 'FAQ\'s', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+});
 
 app.intent('Default Welcome Intent', (conv) => {
     var currentDate = new Date();
@@ -180,7 +197,7 @@ app.intent('current event', (conv) => {
     let year = date_ob.getFullYear();
     var currentDate = year + "-" + month + "-" + date;
     var eventDay1 = '2020-03-14';
-    var eventDay2 = '2020-03-10';
+    var eventDay2 = '2020-03-15';
     var i, flag = 0;
 
     if (currentDate === eventDay1) {
@@ -194,10 +211,10 @@ app.intent('current event', (conv) => {
         }
         // console.log(json.sessions[i].speaker_name);
         if (flag == 1) {
-            conv.ask(`At this very moment, I've figured that we have a session on ${json.sessions[i].session_title} by ${json.sessions[i].speaker_name}.`);
+            conv.ask(`At this very moment, I've figured that we have a ${json.sessions[i].session_title} by ${json.sessions[i].speaker_name}.`);
             conv.ask('Rendering all that in to a card view in real time. Here you go, ');
             conv.ask(new BasicCard({
-                text: `**Session Description :** ${json.sessions[i].session_desc}   \n**Speaker :** ${json.sessions[i].speaker_name}   \n**Speaker Designation :** ${json.sessions[i].speaker_desc}   \n**Session Duration :** ${json.sessions[i].session_total_time}   \n   \n**Track :** ${json.sessions[i].track}`,
+                text: `**Event Description :** ${json.sessions[i].session_desc}   \n**By :** ${json.sessions[i].speaker_name} of ${json.sessions[i].speaker_desc}   \n**Event Duration :** ${json.sessions[i].session_total_time}   \n   \n**Track :** ${json.sessions[i].track}`,
                 title: `${json.sessions[i].session_title}`,
                 image: new Image({
                     url: json.sessions[i].speaker_image,
@@ -247,6 +264,102 @@ app.intent('current event', (conv) => {
         conv.ask("<speak><par><media xml:id='one' begin='0.5s'><speak>Is that because DevExpo already ended?</speak></media><media begin='one.end' fadeOutDur='2s'><speak><prosody pitch='low' rate='0.4' volume='1.5'>Or has it not started yet?.</prosody></speak></media><media end='5s' soundLevel='+2.28dB' fadeInDur='0.2s' fadeOutDur='0.4s'><audio src='https://actions.google.com/sounds/v1/horror/hallow_wind.ogg'/> </media> </par> Meanwhile, you can check out all of my other features.</speak>");
         conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
     }
+});
+
+app.intent('schedule', (conv) => {
+    conv.ask("We are fully loaded with two days of power packed events.");
+    conv.ask("Select for which day you want the schedule for, the 14th or the 15th.");
+    conv.ask(new Suggestions(['14th March', '15th March']));
+});
+
+app.intent('schedule - next', async (conv, { session }) => {
+    var t2 = {};
+    var x, json, i, nextday, img;
+
+    if (session === "14") {
+        conv.ask("The first day of DevExpo is the day of fun. Packed with a ton of engaging fun events.");
+        json = loadJsonFile.sync('sessions1.json');
+        nextday = "15";
+        conv.data.sessionDay = 14;
+    }
+    else if (session === "15") {
+        conv.ask("The second day of DevExpo is the day of technology. We have an awesome lineup of industry expert speakers ready to share their experience and knowledge with you.");
+        json = loadJsonFile.sync('sessions2.json');
+        nextday = "14";
+        conv.data.sessionDay = 15;
+    }
+    else {
+        conv.ask("This one time I wrote a book called 3 Mistakes of my Life. Do you know what was one of them?");
+        conv.ask("Not knowing that DevExpo was on the 14th and 15th of March. Now, which day\'s schedule do you wanna look at?");
+        conv.ask(new Suggestions(['Day 1', 'Day 2']));
+        return;
+    }
+
+    conv.ask("Here they are, click on the card to view it in details.");
+    for (i = 0; i < json.sessions.length; i++) {
+        if (session == "14") {
+            img = json.sessions[i].speaker_image;
+        }
+        else if (session == "15") {
+            img = json.sessions[i].speaker_poster;
+        }
+        x = {
+            title: `${json.sessions[i].session_title}`,
+            description: `${json.sessions[i].speaker_name} | ${json.sessions[i].session_total_time}`,
+            image: new Image({
+                url: img,
+                alt: `${json.sessions[i].session_title}`,
+            }),
+        };
+        t2[`${json.sessions[i].session_id}`] = x;
+    }
+    conv.ask(new Carousel({
+        items: t2,
+    }));
+    conv.ask(new Suggestions([`${nextday}th March`, 'Main Menu', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+});
+
+app.intent('schedule - next - detail', async (conv, params, option) => {
+    var i, flag = 0, json, img;
+
+    if (conv.data.sessionDay == 14) {
+        json = loadJsonFile.sync('sessions1.json');
+    }
+    else if (conv.data.sessionDay == 15) {
+        json = loadJsonFile.sync('sessions2.json');
+    }
+
+    for (i = 0; i < json.sessions.length; i++) {
+        if (json.sessions[i].session_id === option) {
+            flag = 1;
+            break;
+        }
+        console.log(`${i} : ${json.sessions[i].speaker_name}`);
+    }
+    if (flag == 1) {
+        if (conv.data.sessionDay == 14) {
+            img = json.sessions[i].speaker_image;
+        }
+        else if (conv.data.sessionDay == 15) {
+            img = json.sessions[i].speaker_poster;
+        }
+        conv.ask('Rendering the event to a card view in real time.');
+        conv.ask(" Here you go, ");
+        conv.ask(new BasicCard({
+            text: `**Event Description :** ${json.sessions[i].session_desc}   \n**By :** ${json.sessions[i].speaker_name} of ${json.sessions[i].speaker_desc}   \n**Event Duration :** ${json.sessions[i].session_total_time}   \n   \n**Track :** ${json.sessions[i].track}`,
+            title: `${json.sessions[i].session_title}`,
+            image: new Image({
+                url: img,
+                alt: `${json.sessions[i].speaker_name}`,
+            }),
+            display: 'WHITE',
+        }));
+    }
+    else {
+        conv.ask("I never knew there were room for the imaginary event that you just cooked up.");
+        conv.ask("Oh wait there isn't. So please imagine something feasible or choose from the suggestions below.");
+    }
+    conv.ask(new Suggestions(['Main Menu', 'All Speakers', 'About DevExpo 2.0', 'Close this Action']));
 });
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
