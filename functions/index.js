@@ -12,6 +12,7 @@ const {
     Carousel,
     BrowseCarousel,
     BrowseCarouselItem,
+    MediaObject,
 } = require('actions-on-google');
 
 const admin = require('firebase-admin');
@@ -27,9 +28,15 @@ const app = dialogflow({
     debug: true,
 });
 
-const posterGIF = 'https://i.ibb.co/6FmTDc8/DevExpo.gif';
+const videoGIF = 'https://i.ibb.co/6FmTDc8/DevExpo.gif';
+// const posterGIF = 'https://i.ibb.co/3cyGkV2/intro.gif';
+const posterGIF = 'https://i.ibb.co/7jhPF5c/Intro-2.gif';
 const dscxmspc = 'https://i.ibb.co/DMhtQ9w/Untitled-design-1.png';
 const faqGIF = 'https://i.ibb.co/238Ghtf/faqgif.gif';
+
+const batGIF = 'https://i.ibb.co/k9nxR9c/batman-vs-superman.gif';
+const ironmanGIF = ['https://i.ibb.co/9hSKrGC/iron-man-3-armor-equip-animation-by-z-studios-d5kmc8q.gif', 'https://i.ibb.co/2Mwsrcm/this-usually-works-by-zxcv11791-d58cv2o.gif'];
+const deadpoolGIF = 'https://i.ibb.co/bLTz7R0/deadpool-likes-to-run-by-zxcv11791-d592l52.gif';
 
 const myoption2 = [
     'This feature is still under development. It might be pushed to release in my future versions.',
@@ -39,7 +46,9 @@ const myoption2 = [
 ];
 
 const dbs = {
-    schedule: db.collection('schedule'),
+    scavengerHunt: db.collection('scavengerHunt'),
+    eastereggHunt: db.collection('eastereggHunt'),
+    count: db.collection('count'),
 };
 
 function timeBetween(startTime, endTime) {
@@ -134,7 +143,7 @@ app.intent('about', (conv) => {
 app.intent('faq', (conv) => {
     conv.ask("The questions here are pretty simple. And so are the answers.");
     conv.ask(new SimpleResponse({
-        speech: `<speak>I've captured all of those questions, <prosody pitch="100%" rate="0.5" volume="0.7"> and yeah, the silly ones as well </prosody> in the below GIF.</speak>`,
+        speech: `<speak>I've captured all of those questions, <prosody pitch="+7st" rate="0.5" volume="0.7"> and yeah, the silly ones as well </prosody> in the below GIF.</speak>`,
         text: `I've captured all of those questions in the below GIF.`,
     }));
     conv.ask(new Image({
@@ -212,7 +221,7 @@ app.intent('current event', (conv) => {
         // console.log(json.sessions[i].speaker_name);
         if (flag == 1) {
             conv.ask(`At this very moment, I've figured that we have a ${json.sessions[i].session_title} by ${json.sessions[i].speaker_name}.`);
-            conv.ask('Rendering all that in to a card view in real time. Here you go, ');
+            conv.ask('Rendering all that in to a card view in real time. What else can I help you with?');
             conv.ask(new BasicCard({
                 text: `**Event Description :** ${json.sessions[i].session_desc}   \n**By :** ${json.sessions[i].speaker_name} of ${json.sessions[i].speaker_desc}   \n**Event Duration :** ${json.sessions[i].session_total_time}   \n   \n**Track :** ${json.sessions[i].track}`,
                 title: `${json.sessions[i].session_title}`,
@@ -241,7 +250,7 @@ app.intent('current event', (conv) => {
         }
         if (flag == 1) {
             conv.ask(`At this very moment, I've figured that we have a session on ${json.sessions[i].session_title} by ${json.sessions[i].speaker_name}.`);
-            conv.ask('Rendering all that in to a card view in real time. Here you go, ');
+            conv.ask('Rendering all that in to a card view in real time. What else can I help you with?');
             conv.ask(new BasicCard({
                 text: `**Session Description :** ${json.sessions[i].session_desc}   \n**Speaker :** ${json.sessions[i].speaker_name}   \n**Speaker Designation :** ${json.sessions[i].speaker_desc}   \n**Session Duration :** ${json.sessions[i].session_total_time}   \n   \n**Track :** ${json.sessions[i].track}`,
                 title: `${json.sessions[i].session_title}`,
@@ -295,7 +304,7 @@ app.intent('schedule - next', async (conv, { session }) => {
         return;
     }
 
-    conv.ask("Here they are, click on the card to view it in details.");
+    conv.ask("Here they are, select the card to view it in details.");
     for (i = 0; i < json.sessions.length; i++) {
         if (session == "14") {
             img = json.sessions[i].speaker_image;
@@ -344,7 +353,7 @@ app.intent('schedule - next - detail', async (conv, params, option) => {
             img = json.sessions[i].speaker_poster;
         }
         conv.ask('Rendering the event to a card view in real time.');
-        conv.ask(" Here you go, ");
+        conv.ask("What else can I help you with?");
         conv.ask(new BasicCard({
             text: `**Event Description :** ${json.sessions[i].session_desc}   \n**By :** ${json.sessions[i].speaker_name} of ${json.sessions[i].speaker_desc}   \n**Event Duration :** ${json.sessions[i].session_total_time}   \n   \n**Track :** ${json.sessions[i].track}`,
             title: `${json.sessions[i].session_title}`,
@@ -360,6 +369,179 @@ app.intent('schedule - next - detail', async (conv, params, option) => {
         conv.ask("Oh wait there isn't. So please imagine something feasible or choose from the suggestions below.");
     }
     conv.ask(new Suggestions(['Main Menu', 'All Speakers', 'About DevExpo 2.0', 'Close this Action']));
+});
+
+app.intent('scavenger hunt', async (conv) => {
+    if (!conv.user.storage.scavengerHuntVisit || !conv.user.storage.scavengerHunt) {
+        conv.ask("<speak><par><media xml:id='one' begin='2s'><speak>Welcome to the land of Indiana Jones.<break time='300ms'/> Here you face <prosody pitch='-5st' rate='0.3'>sharp cryptic challenges <break time='300ms'/> designed to </prosody><prosody pitch='-5st' rate='0.2'>cripple you down.</prosody></speak></media><media end='one.end' soundLevel='+5.28dB' fadeOutDur='0.4s'><audio src='https://actions.google.com/sounds/v1/science_fiction/forboding_resonance.ogg'/> </media> </par> </speak>");
+        conv.ask("And obviously there's a prized treasure waiting for you at the finish line. Are you ready for it?");
+        conv.ask(new Suggestions(['Yes', 'No']));
+        conv.user.storage.scavengerHuntVisit = 1;
+    } else if (conv.user.storage.scavengerHunt == 3) {
+        conv.ask("I see you have already finished all of the puzzles. Nice going.");
+        conv.ask("To redeem your crystal skull, I mean your swags. Enter your details if you haven't.");
+        conv.ask(new Suggestions(['Enter Details', 'Main Menu', 'Close this Action']));
+    } else {
+        conv.ask("Would you like to continue with your quest, Mr. Jones?");
+        conv.ask(new Suggestions(['Continue']));
+    }
+});
+
+app.intent('scavenger hunt - yes', (conv) => {
+    if (!conv.user.storage.scavengerHunt) {
+        conv.ask("I see we have found one of our heros. Will he be able to crack this down and get to the treasure? Let's see.");
+        conv.ask("Here goes the first crypt.");
+        conv.ask(new BasicCard({
+            text: '**01010111 01101000 01101111 00100000 01101101 01100001 01100100 01100101 00100000 01110100 01101000 01100101 00100000 01000001 01101110 01100111 01110010 01111001 00100000 01000010 01101001 01110010 01100100 01110011 00100000 01100111 01100001 01101101 01100101 00111111**   \n   \n   \nSolve it and tell me the answer.',
+            image: new Image({
+                url: 'https://i.ibb.co/bgPDr4g/cipher-01.png',
+                alt: 'Q1',
+            }),
+            display: 'WHITE',
+        }));
+        conv.ask(new Suggestions(['Enter Answer', 'Main Menu', 'Close this Action']));
+    }
+    else if (conv.user.storage.scavengerHunt == 1) {
+        conv.ask("Congratulations on solving the first one. You moved past the treacharous mountains and now are in front of a cave guarded by a wierd creature.");
+        conv.ask("<speak>The creature started talking in its own language. <break time='400ms'/> <audio src='https://storage.googleapis.com/devexpo-d9b92.appspot.com/Cipher2.mp3'></audio> <break time='400ms'/> Maybe it was asking for a password. Solve and get it to go past the second crypt.</speak>");
+        conv.ask(new BasicCard({
+            text: 'Click the button to download what the creature said. Solve it and tell me the answer.',
+            buttons: new Button({
+                title: "Download",
+                url: 'https://storage.googleapis.com/devexpo-d9b92.appspot.com/Cipher2.mp3',
+            }),
+            image: new Image({
+                url: 'https://i.ibb.co/7nDYKwb/cipher-02.png',
+                alt: 'Q2',
+            }),
+            display: 'WHITE',
+        }));
+        conv.ask(new Suggestions(['Enter Answer', 'Main Menu', 'Close this Action']));
+    }
+    else if (conv.user.storage.scavengerHunt == 2) {
+        conv.ask("Inside the dark cave you found a bottle.");
+        conv.ask("In the bottle was a parchment. On it was written something.");
+        conv.ask(new Image({
+            url: 'https://i.ibb.co/XZ8fH9C/Some-wierd-text.png',
+            alt: 'Q3',
+        }));
+        conv.ask(new Suggestions(['Enter Answer', 'Main Menu', 'Close this Action']));
+    }
+    else if (conv.user.storage.scavengerHunt == 3) {
+        conv.ask("I see you have already finished all of the puzzles. Nice going.");
+        conv.ask("To redeem your crystal skull, I mean your swags. Enter your details if you haven't.");
+        conv.ask(new Suggestions(['Enter Details', 'Main Menu', 'Close this Action']));
+    }
+
+});
+
+app.intent('enter answer - answer', async (conv, { any }) => {
+    var answer = any.toLowerCase();
+    if (answer.includes('rovio')) {
+        conv.user.storage.scavengerHunt = 1;
+        conv.ask("You got it champ. Solving the first of many ciphers, you move forward the treacharous mountains. What comes next?");
+        conv.ask("Go back to the Scavenger Hunt to find out.");
+        conv.ask(new Suggestions(['Scavenger Hunt', 'Main Menu', 'Close this Action']));
+    } else if (conv.user.storage.scavengerHunt == 1 && answer.includes('bill gates')) {
+        conv.ask("Wow that was really awesome. Even it took me months to learn that language. The creature now let's you go inside the cave. What do you find inside the dark cave?");
+        conv.ask("Go back to the Scavenger Hunt to find out.");
+        conv.ask(new Suggestions(['Scavenger Hunt', 'Main Menu', 'Close this Action']));
+        conv.user.storage.scavengerHunt = 2;
+    } else if (conv.user.storage.scavengerHunt == 2 && answer.includes('david craves')) {
+        conv.ask("There's our hero. You solved the map, followed it and found the crystal skull. Welcome back to the real world Mr. Jones.");
+        conv.ask("To redeem your crystal skull for swags you need to enter your details below. Click on the suggestion to continue.");
+        conv.ask(new Suggestions(['Enter Details', 'Main Menu', 'Close this Action']));
+        conv.user.storage.scavengerHunt = 3;
+    } else {
+        conv.ask("Nope that's not it. I'm smart enough not to give away crystal skulls to just about everyone.");
+        conv.ask("Please try again. Or you can even check out all of my other features.");
+        conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+    }
+});
+
+app.intent('enter details - final', async (conv, { name, roll }) => {
+    if (conv.user.storage.scavengerHunt == 3 && !conv.user.storage.eastereggHunt) {
+        const countRef = dbs.count.doc('scavengerCount');
+        const nextCount = await countRef.get();
+        var count = nextCount.data().count + 1;
+        await countRef.update({ count: count });
+        await dbs.scavengerHunt.doc(`user ${count}`).set({ name: name, roll: roll });
+        conv.ask("I have saved your details. I'll pass it on to someone who'll give you your crystal skull.");
+        conv.ask("Make sure to attend DevExpo 2.0 to get it. Until then, what can I help you with?");
+        conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+        conv.user.storage.scavengerHunt = 0;
+    } else if ((conv.user.storage.eastereggHunt == 3 && conv.user.storage.scavengerHunt != 3) || (conv.user.storage.eastereggHunt == 3 && !conv.user.storage.scavengerHunt)) {
+        const countRef = dbs.count.doc('eastereggCount');
+        const nextCount = await countRef.get();
+        var count = nextCount.data().count + 1;
+        await countRef.update({ count: count });
+        await dbs.eastereggHunt.doc(`user ${count}`).set({ name: name, roll: roll });
+        conv.ask("I have saved your details. I'll pass it on to someone who'll give you your cool swag.");
+        conv.ask("Make sure to attend DevExpo 2.0 to get it. Until then, what can I help you with?");
+        conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+        conv.user.storage.eastereggHunt = 0;
+    } else if (conv.user.storage.eastereggHunt == 3 && conv.user.storage.scavengerHunt == 3) {
+        conv.ask("You have found yourself in a deadlock situation. That is because you've been too greedy to fill in your details the first time you solved something.")
+        conv.ask("As being too greedy is really bad for a person, I'd go ahead and wipe out all your progress so that you have to start fresh. But you already are a step ahead of everyone. Use that wisely. What do you want to know about now?");
+        conv.ask(new Suggestions(['Scavenger Hunt', 'Easter Eggs', 'Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+        conv.user.storage.scavengerHunt = 0;
+        conv.user.storage.eastereggHunt = 0;
+    } else {
+        conv.ask("Uh no! Another freeloader. Make sure you complete the quest or find an easter egg before trying to enter details because I can handle cheaters very well.");
+        conv.ask("Complete the Scavenger Hunt and then try again.");
+        conv.ask(new Suggestions(['Scavenger Hunt', 'Easter Eggs', 'Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+    }
+});
+
+app.intent('marvel dc easter egg', async (conv, { quotes }) => {
+    conv.user.storage.eastereggHunt = 3;
+    if (quotes === "batman") {
+        conv.ask("Batman seems happy that you've used your intelligence to reach here.");
+        conv.ask(new Image({
+            url: batGIF,
+            alt: 'batman',
+        }));
+    } else if (quotes === "iron man") {
+        conv.ask("Ironman isn't at home, but JARVIS made sure to give him your regards.");
+        const gifArr = ironmanGIF;
+        const gifIndex = Math.floor(Math.random() * gifArr.length);
+        const randomGIF = gifArr[gifIndex];
+        conv.ask(new Image({
+            url: randomGIF,
+            alt: 'ironman',
+        }));
+    } else if (quotes === "deadpool") {
+        conv.ask(new SimpleResponse({
+            speech: "<speak>Deadpool doesn't give a <say-as interpret-as='expletive'>fuck</say-as> when he sees you. But, </speak>",
+            text: "Deadpool doesn't give a f**k when he sees you. But, ",
+        }));
+        conv.ask(new Image({
+            url: deadpoolGIF,
+            alt: 'deadpool',
+        }));
+    }
+    conv.ask("We'd like to appreciate that by awarding you with some awesome swags. Please enter your details now. Click on the suggestions to continue.");
+    conv.ask(new Suggestions(['Enter Details', 'Main Menu', 'Close this Action']));
+});
+
+app.intent('mission impossible easter egg', async (conv) => {
+    if (!conv.user.storage.miVisit) {
+        conv.user.storage.miVisit = 1;
+        conv.ask("You've got to the dark side of the quest. Feel free to go back if you're not steel hearted. This isn't for the feeble minded as well.");
+        conv.ask(new SimpleResponse({
+            speech: "Listen closely, your mission, should you choose to accept it, is to find a member of the DevExpo team named Manish, get a secret file from him. Decrypt it to get a password. Find another member of the DevExpo team named Amrit and get the encrypted file from him. Open it using the password from earlier. Follow the instructions from there. As always, should you or any of your IM Force be caught or killed, the Secretary will disavow any knowledge of your actions. This message will self-destruct in five seconds. Good luck,",
+            text: "Listen closely, ",
+        }));
+        conv.ask(new Image({
+            url: 'https://thumbs.gfycat.com/NiceUnrulyAmericanblackvulture-size_restricted.gif',
+            alt: 'timer',
+        }));
+        conv.ask(new Suggestions(['Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']))
+    } else {
+        conv.ask("This message was self destructed.");
+        conv.ask("For now you can find other easter eggs and complete the scavenger hunt to win goodies. Or else I can help you with any other queries regarding DevExpo 2.0.");
+        conv.ask(new Suggestions(['Scavenger Hunt', 'Easter Eggs', 'Main Menu', 'Event Schedule', 'Guest Speakers', 'About DevExpo 2.0', 'Close this Action']));
+    }
 });
 
 exports.dialogflowFirebaseFulfillment = functions.https.onRequest(app);
