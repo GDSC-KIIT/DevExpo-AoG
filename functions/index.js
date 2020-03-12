@@ -29,8 +29,7 @@ const app = dialogflow({
 });
 
 const videoGIF = 'https://i.ibb.co/6FmTDc8/DevExpo.gif';
-// const posterGIF = 'https://i.ibb.co/3cyGkV2/intro.gif';
-const posterGIF = 'https://i.ibb.co/7jhPF5c/Intro-2.gif';
+const posterGIF = 'https://i.ibb.co/W5NDD74/Intro-3.gif';
 const dscxmspc = 'https://i.ibb.co/DMhtQ9w/Untitled-design-1.png';
 const faqGIF = 'https://i.ibb.co/238Ghtf/faqgif.gif';
 
