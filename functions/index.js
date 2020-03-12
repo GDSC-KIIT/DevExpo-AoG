@@ -29,7 +29,7 @@ const app = dialogflow({
 });
 
 const videoGIF = 'https://i.ibb.co/6FmTDc8/DevExpo.gif';
-const posterGIF = 'https://i.ibb.co/W5NDD74/Intro-3.gif';
+const posterGIF = 'https://i.ibb.co/6DBFhwj/Intro-Final.gif';
 const dscxmspc = 'https://i.ibb.co/DMhtQ9w/Untitled-design-1.png';
 const faqGIF = 'https://i.ibb.co/238Ghtf/faqgif.gif';
 
@@ -158,10 +158,19 @@ app.intent('register', (conv) => {
 
     if (checkDate > currentDate) {
         conv.ask("You have to register yourself as an attendee to come to the all fun and all tech two day event of DevExpo.");
-        conv.ask("Click on the link below to navigate to the registration page.");
-        conv.ask(new LinkOutSuggestion({
-            name: 'Registration Page',
-            url: 'https://docs.google.com/forms/d/e/1FAIpQLSc1HlEACdihO85vJSwVcHYt3JQEjl2tT3MMDfrs4i-OtRtwqg/viewform?usp=sf_link',
+        conv.ask("Click on the button below to navigate to the registration page.");
+        conv.ask(new BasicCard({
+            text: `Register now to attend the flagship event of DevExpo 2.0`,
+            title: `DevExpo 2.0 Registration`,
+            image: new Image({
+                url: videoGIF,
+                alt: `DevExpo 2.0`,
+            }),
+            buttons: new Button({
+                title: `Registration Page`,
+                url: `https://docs.google.com/forms/d/e/1FAIpQLSc1HlEACdihO85vJSwVcHYt3JQEjl2tT3MMDfrs4i-OtRtwqg/viewform?usp=sf_link`,
+            }),
+            display: 'CROPPED',
         }));
         conv.ask(new Suggestions(['Main Menu', 'Close this Action']));
     } else {
